@@ -8,7 +8,6 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import {
-  Globe,
   Zap,
   ArrowRight,
   CheckCircle2,
@@ -24,10 +23,11 @@ import {
 } from "lucide-react";
 import { processWebsiteAction } from "./actions";
 import { toast } from "react-hot-toast";
+import { SeoData } from "@/lib/seo-analyzer";
 
 export default function Home() {
   const [url, setUrl] = useState("");
-  const [scrapedData, setScrapedData] = useState<any>(null);
+  const [scrapedData, setScrapedData] = useState<SeoData | null>(null);
   const [loading, setLoading] = useState(false);
   const [seoReport, setSeoReport] = useState<string | null>(null);
 
@@ -59,7 +59,7 @@ export default function Home() {
       } else {
         toast.error(response.error || "Analysis failed");
       }
-    } catch (err) {
+    } catch {
       toast.error("An unexpected error occurred");
     } finally {
       setLoading(false);
