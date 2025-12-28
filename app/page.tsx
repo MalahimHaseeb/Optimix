@@ -120,7 +120,7 @@ export default function Home() {
               <div className="bg-emerald-500/20 p-2 md:p-3 rounded-xl md:rounded-2xl border border-emerald-500/30">
                 <Zap className="w-5 h-5 md:w-6 md:h-6 text-emerald-500" />
               </div>
-              <div onClick={handleReset}>
+              <div onClick={handleReset} className="cursor-pointer">
                 <div className="text-xl md:text-2xl font-black tracking-tighter leading-none">Optimix</div>
                 <p className="text-[8px] md:text-[10px] uppercase tracking-[0.2em] md:tracking-[0.4em] text-muted-foreground font-black mt-1">Growth Intelligence</p>
               </div>
