@@ -54,9 +54,10 @@ export async function scrapeWebsite(url: string) {
       },
       url
     };
-  } catch (error: any) {
+  } catch (error) {
     console.error('Scraping error:', error);
-    throw new Error(`Failed to scrape website: ${error.message}`);
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    throw new Error(`Failed to scrape website: ${errorMessage}`);
   }
 }
 
