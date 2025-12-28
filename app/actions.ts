@@ -6,12 +6,13 @@ export async function processWebsiteAction(url: string) {
         const scrapedData = await scrapeWebsite(url);
 
         // Directly perform analysis after scraping
-        const report = analyzeSeoLocally(scrapedData as SeoData);
+        const { html, score } = analyzeSeoLocally(scrapedData as SeoData);
 
         return {
             success: true,
             data: scrapedData,
-            report: report
+            report: html,
+            score: score
         };
     } catch (error) {
         return {

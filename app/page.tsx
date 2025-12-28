@@ -30,6 +30,7 @@ export default function Home() {
   const [scrapedData, setScrapedData] = useState<SeoData | null>(null);
   const [loading, setLoading] = useState(false);
   const [seoReport, setSeoReport] = useState<string | null>(null);
+  const [score, setScore] = useState<number | null>(null);
 
   useEffect(() => {
     if (seoReport) {
@@ -63,12 +64,14 @@ export default function Home() {
     setLoading(true);
     setScrapedData(null);
     setSeoReport(null);
+    setScore(null);
 
     try {
       const response = await processWebsiteAction(targetUrl);
       if (response.success && response.data && response.report) {
         setScrapedData(response.data);
         setSeoReport(response.report);
+        setScore(response.score || 0);
         toast.success("Optimization Report Ready!");
       } else {
         toast.error(response.error || "Analysis failed");
@@ -83,6 +86,7 @@ export default function Home() {
   const handleReset = () => {
     setScrapedData(null);
     setSeoReport(null);
+    setScore(null);
     setUrl("");
   };
 
@@ -249,13 +253,44 @@ export default function Home() {
                 {seoReport && !loading && (
                   <Card className="border-border/40 bg-card/60 backdrop-blur-3xl rounded-2xl md:rounded-[3rem] overflow-hidden shadow-2xl">
                     <CardHeader className="border-b border-border/30 bg-white/5 p-6 md:p-10">
-                      <div className="flex items-center gap-4">
-                        <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-emerald-500/20 flex items-center justify-center border border-emerald-500/30 shadow-inner shrink-0">
-                          <TrendingUp className="w-5 h-5 md:w-6 md:h-6 text-emerald-500" />
+                      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                        <div className="flex items-center gap-4">
+                          <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-emerald-500/20 flex items-center justify-center border border-emerald-500/30 shadow-inner shrink-0">
+                            <TrendingUp className="w-5 h-5 md:w-6 md:h-6 text-emerald-500" />
+                          </div>
+                          <div>
+                            <CardTitle className="text-xl md:text-3xl font-black italic uppercase tracking-tighter">Growth Intel</CardTitle>
+                            <p className="text-[10px] md:text-xs font-bold text-emerald-500/60 uppercase tracking-[0.2em] mt-1">Audit Report</p>
+                          </div>
                         </div>
-                        <div>
-                          <CardTitle className="text-xl md:text-3xl font-black italic uppercase tracking-tighter">Growth Intel</CardTitle>
-                          <p className="text-[10px] md:text-xs font-bold text-emerald-500/60 uppercase tracking-[0.2em] mt-1">Audit Report</p>
+
+                        {/* Animated Score Gauge */}
+                        <div className="relative w-20 h-20 md:w-24 md:h-24 flex items-center justify-center">
+                          <svg className="w-full h-full -rotate-90">
+                            <circle
+                              cx="50%"
+                              cy="50%"
+                              r="40%"
+                              className="stroke-muted/20 fill-none"
+                              strokeWidth="8"
+                            />
+                            <circle
+                              cx="50%"
+                              cy="50%"
+                              r="40%"
+                              className="stroke-emerald-500 transition-all duration-1000 ease-out fill-none"
+                              strokeWidth="8"
+                              strokeDasharray="251.2"
+                              strokeDashoffset={251.2 - (251.2 * (score || 0)) / 100}
+                              strokeLinecap="round"
+                            />
+                          </svg>
+                          <div className="absolute inset-0 flex flex-col items-center justify-center">
+                            <span className="text-lg md:text-2xl font-black italic tracking-tighter">
+                              {score}<span className="text-[10px] md:text-xs">%</span>
+                            </span>
+                            <span className="text-[8px] font-black uppercase tracking-tighter text-muted-foreground leading-none">Grade</span>
+                          </div>
                         </div>
                       </div>
                     </CardHeader>
