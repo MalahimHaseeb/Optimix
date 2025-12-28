@@ -71,7 +71,7 @@ async function performScrape(url: string, useMobile = false) {
         if (linkUrl.hostname === urlObj.hostname || href.startsWith('/') || href.startsWith('./') || href.startsWith('#')) {
           internalLinks++;
         }
-      } catch (e) {
+      } catch {
         if (href.startsWith('/') || href.startsWith('./') || href.startsWith('#')) {
           internalLinks++;
         }
@@ -123,7 +123,7 @@ export async function scrapeWebsite(url: string) {
   }
 
   try {
-    let result = await performScrape(processedUrl);
+    const result = await performScrape(processedUrl);
 
     // Fallback: If no title and very little content, try mobile UA which sometimes bypasses simple blocks
     if (!result.title && result.content.length < 500) {
@@ -132,7 +132,7 @@ export async function scrapeWebsite(url: string) {
         if (mobileResult.title || mobileResult.content.length > result.content.length) {
           return mobileResult;
         }
-      } catch (e) {
+      } catch {
         // ignore fallback error and return original result
       }
     }
@@ -150,7 +150,7 @@ export async function scrapeWebsite(url: string) {
           wwwUrl.hostname = `www.${urlObj.hostname}`;
           return await performScrape(wwwUrl.toString());
         }
-      } catch (e) { }
+      } catch { }
     }
 
     throw new Error(errorMessage);
