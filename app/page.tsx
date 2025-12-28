@@ -46,18 +46,18 @@ export default function Home() {
       return;
     }
 
-    let targetUrl = url.trim();
+    let targetUrl = url.trim().toLowerCase();
 
-    // Check for http:// and show error
-    if (targetUrl.toLowerCase().startsWith("http://")) {
-      toast.error("Please enter a secure URL starting with https://");
+    // Block explicit http://
+    if (targetUrl.startsWith("http://")) {
+      toast.error("HTTP is not secure. Please use HTTPS or enter the domain name directly.");
       return;
     }
 
-    // If no protocol is provided, prepend https://
-    if (!targetUrl.toLowerCase().startsWith("https://")) {
+    // Handle domain only inputs
+    if (!targetUrl.startsWith("https://") && !targetUrl.startsWith("http://")) {
       targetUrl = `https://${targetUrl}`;
-      setUrl(targetUrl); // Update the input field to show the formatted URL
+      setUrl(targetUrl);
     }
 
     setLoading(true);
