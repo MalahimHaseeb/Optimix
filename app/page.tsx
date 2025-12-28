@@ -109,7 +109,7 @@ export default function Home() {
               className="rounded-xl md:rounded-2xl font-bold text-xs"
               asChild
             >
-              <a href="https://github.com/MalahimHaseeb/MalahimHaseeb" target="_blank" rel="noopener noreferrer">
+              <a href="https://github.com/MalahimHaseeb/Optimix" target="_blank" rel="noopener noreferrer">
                 <Github className="w-4 h-4 mr-2" /> <span className="hidden sm:inline">GitHub</span>
               </a>
             </Button>
