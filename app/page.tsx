@@ -46,12 +46,26 @@ export default function Home() {
       return;
     }
 
+    let targetUrl = url.trim();
+
+    // Check for http:// and show error
+    if (targetUrl.toLowerCase().startsWith("http://")) {
+      toast.error("Please enter a secure URL starting with https://");
+      return;
+    }
+
+    // If no protocol is provided, prepend https://
+    if (!targetUrl.toLowerCase().startsWith("https://")) {
+      targetUrl = `https://${targetUrl}`;
+      setUrl(targetUrl); // Update the input field to show the formatted URL
+    }
+
     setLoading(true);
     setScrapedData(null);
     setSeoReport(null);
 
     try {
-      const response = await processWebsiteAction(url);
+      const response = await processWebsiteAction(targetUrl);
       if (response.success && response.data && response.report) {
         setScrapedData(response.data);
         setSeoReport(response.report);
@@ -137,7 +151,7 @@ export default function Home() {
                   <div className="relative flex-1 group">
                     <Search className="absolute left-4 md:left-6 top-1/2 -translate-y-1/2 w-5 h-5 md:w-6 md:h-6 text-muted-foreground group-focus-within:text-emerald-500 transition-colors" />
                     <Input
-                      type="url"
+                      type="text"
                       placeholder="Enter website URL..."
                       value={url}
                       onChange={(e) => setUrl(e.target.value)}
