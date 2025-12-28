@@ -16,16 +16,16 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Optimix | AI-Powered SEO Audit & Growth Intelligence Tool",
+  title: "Optimix | High-Performance SEO Audit & Growth Intelligence Tool",
   description: "Accelerate your web growth with Optimix. Get high-performance SEO insights, structural analysis, and keyword intelligence for any web project. Built for digital excellence.",
-  keywords: ["SEO Audit", "Web Growth", "SEO Tool", "Growth Intelligence", "Website Analysis", "Optimix", "SEO Optimization"],
+  keywords: ["SEO Audit", "Web Growth", "SEO Tool", "Growth Intelligence", "Website Analysis", "Optimix", "SEO Optimization", "Free SEO Audit"],
   authors: [{ name: "Malahim Haseeb", url: "https://malahim.dev" }],
   creator: "Malahim Haseeb",
   openGraph: {
     type: "website",
     locale: "en_US",
     url: "https://optimix.malahim.dev",
-    title: "Optimix | AI-Powered SEO Audit & Growth Intelligence Tool",
+    title: "Optimix | High-Performance SEO Audit & Growth Intelligence Tool",
     description: "Unlock high-performance insights for any web project. Our local intelligence engine scans structure and keywords to sharpen your digital edge.",
     siteName: "Optimix",
     images: [
@@ -33,13 +33,13 @@ export const metadata: Metadata = {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Optimix - AI-Powered SEO Audit",
+        alt: "Optimix - High-Performance SEO Audit",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Optimix | AI-Powered SEO Audit & Growth Intelligence Tool",
+    title: "Optimix | High-Performance SEO Audit & Growth Intelligence Tool",
     description: "Accelerate your web growth with high-performance SEO insights.",
     creator: "@MalahimHaseeb",
     images: ["/og-image.png"],
@@ -88,7 +88,7 @@ export default function RootLayout({
                 "name": "Malahim Haseeb",
                 "url": "https://malahim.dev"
               },
-              "description": "Optimix is an AI-powered SEO audit and growth intelligence tool that provides high-performance insights for web projects."
+              "description": "Optimix is a high-performance SEO audit and growth intelligence tool that provides deep insights for web projects."
             }),
           }}
         />
