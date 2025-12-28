@@ -1,3 +1,5 @@
+'use server';
+
 import { scrapeWebsite } from "@/lib/crawler";
 import { analyzeSeoLocally, SeoData } from "@/lib/seo-analyzer";
 
