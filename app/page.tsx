@@ -19,7 +19,8 @@ import {
   Trash2,
   TrendingUp,
   Search,
-  Github
+  Github,
+  Rocket
 } from "lucide-react";
 import { processWebsiteAction } from "./actions";
 import { toast } from "react-hot-toast";
@@ -31,6 +32,7 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [seoReport, setSeoReport] = useState<string | null>(null);
   const [score, setScore] = useState<number | null>(null);
+  const [recommendations, setRecommendations] = useState<string[]>([]);
 
   useEffect(() => {
     if (seoReport) {
@@ -65,6 +67,7 @@ export default function Home() {
     setScrapedData(null);
     setSeoReport(null);
     setScore(null);
+    setRecommendations([]);
 
     try {
       const response = await processWebsiteAction(targetUrl);
@@ -72,6 +75,7 @@ export default function Home() {
         setScrapedData(response.data);
         setSeoReport(response.report);
         setScore(response.score || 0);
+        setRecommendations(response.recommendations || []);
         toast.success("Optimization Report Ready!");
       } else {
         toast.error(response.error || "Analysis failed");
@@ -87,6 +91,7 @@ export default function Home() {
     setScrapedData(null);
     setSeoReport(null);
     setScore(null);
+    setRecommendations([]);
     setUrl("");
   };
 
@@ -120,6 +125,10 @@ export default function Home() {
                 <p className="text-[8px] md:text-[10px] uppercase tracking-[0.2em] md:tracking-[0.4em] text-muted-foreground font-black mt-1">Growth Intelligence</p>
               </div>
             </div>
+            <div className="hidden md:flex items-center gap-6">
+              <a href="#features" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground hover:text-emerald-500 transition-colors">Features</a>
+              <a href="#analysis-form" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground hover:text-emerald-500 transition-colors">Audit</a>
+            </div>
             <div className="flex items-center gap-2 md:gap-4">
               <ModeToggle />
               <Button
@@ -152,7 +161,7 @@ export default function Home() {
                 </p>
               </div>
 
-              <Card className="border-border/40 bg-card/40 backdrop-blur-3xl shadow-xl md:shadow-2xl rounded-3xl md:rounded-[3rem] overflow-hidden hover:border-emerald-500/30 transition-all duration-700 mx-auto max-w-3xl">
+              <Card id="analysis-form" className="border-border/40 bg-card/40 backdrop-blur-3xl shadow-xl md:shadow-2xl rounded-3xl md:rounded-[3rem] overflow-hidden hover:border-emerald-500/30 transition-all duration-700 mx-auto max-w-3xl">
                 <CardContent className="p-6 md:p-12">
                   <form onSubmit={handleStartAnalysis} className="flex flex-col gap-4">
                     <div className="relative flex-1 group">
@@ -198,7 +207,7 @@ export default function Home() {
               </Card>
             </div>
           ) : (
-            <div className="max-w-7xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-5 duration-1000">
+            <div id="audit" className="max-w-7xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-5 duration-1000">
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
                 <div className="lg:col-span-4 space-y-6">
                   <Card className="border-border/40 bg-card/50 backdrop-blur-2xl rounded-2xl md:rounded-[2rem] overflow-hidden shadow-xl md:sticky md:top-8">
@@ -251,6 +260,25 @@ export default function Home() {
                       </Button>
                     </CardFooter>
                   </Card>
+
+                  {recommendations.length > 0 && (
+                    <Card className="border-border/40 bg-card/50 backdrop-blur-2xl rounded-2xl md:rounded-[2rem] overflow-hidden shadow-xl">
+                      <CardHeader className="border-b border-border/30 bg-primary/5 p-6 md:p-8">
+                        <div className="flex items-center gap-3">
+                          <Rocket className="w-5 h-5 text-primary" />
+                          <CardTitle className="text-lg md:text-xl font-black italic uppercase tracking-tight">Growth Roadmap</CardTitle>
+                        </div>
+                      </CardHeader>
+                      <CardContent className="p-6 md:p-8 space-y-4">
+                        {recommendations.map((rec, i) => (
+                          <div key={i} className="flex items-start gap-4 p-4 rounded-2xl bg-muted/20 border border-border/50 group hover:border-primary/30 transition-all">
+                            <div className="bg-primary/10 p-2 rounded-xl text-primary font-black text-[10px] shrink-0">TODO</div>
+                            <span className="text-xs font-semibold leading-relaxed">{rec}</span>
+                          </div>
+                        ))}
+                      </CardContent>
+                    </Card>
+                  )}
                 </div>
 
                 <div id="report-section" className="lg:col-span-8">
@@ -307,11 +335,38 @@ export default function Home() {
               </div>
             </div>
           )}
+          {/* New Features Section */}
+          <section id="features" className="mt-32 max-w-6xl mx-auto px-4">
+            <div className="text-center space-y-4 mb-20">
+              <h2 className="text-3xl md:text-5xl font-black tracking-tighter italic uppercase">Engineered for Performance</h2>
+              <p className="text-muted-foreground font-medium max-w-2xl mx-auto">Optimix delivers deep structural analysis using our custom-tuned local intelligence engine.</p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {[
+                { title: "Deep Scrape", desc: "Our crawler extracts structure, metadata, and high-density keywords locally." },
+                { title: "Privacy First", desc: "No data leaves your environment. All analysis happens in realtime on our secure edge." },
+                { title: "Growth Roadmap", desc: "Get actionable TODOs to immediately improve your search engine standing." }
+              ].map((f, i) => (
+                <div key={i} className="p-8 rounded-[2rem] bg-card/40 border border-border/40 hover:border-emerald-500/30 transition-all group">
+                  <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                    <Zap className="w-6 h-6 text-emerald-500" />
+                  </div>
+                  <h3 className="text-xl font-black italic uppercase mb-2 tracking-tight">{f.title}</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">{f.desc}</p>
+                </div>
+              ))}
+            </div>
+          </section>
         </main>
 
         <footer className="mt-20 pb-10 text-center space-y-4">
           <Separator className="max-w-[100px] mx-auto bg-emerald-500/30 h-1.5 rounded-full" />
           <div className="space-y-2">
+            <div className="flex items-center justify-center gap-6 text-[10px] font-black uppercase tracking-widest text-muted-foreground/60 mb-4">
+              <a href="#" className="hover:text-emerald-500 transition-colors">Home</a>
+              <a href="#features" className="hover:text-emerald-500 transition-colors">Features</a>
+              <a href="#analysis-form" className="hover:text-emerald-500 transition-colors">Audit</a>
+            </div>
             <p className="text-base md:text-lg font-black italic uppercase tracking-tighter">Optimix</p>
             <p className="text-[8px] md:text-9px uppercase tracking-[0.4em] font-black text-muted-foreground/40">Digital Excellence Engine</p>
             <p className="text-[10px] md:text-[11px] font-bold text-muted-foreground/60 transition-colors hover:text-emerald-500">

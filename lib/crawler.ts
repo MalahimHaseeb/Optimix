@@ -32,7 +32,7 @@ async function performScrape(url: string) {
     const internalLinks = $('a').filter((_, el) => {
       const href = $(el).attr('href');
       if (!href) return false;
-      return href.startsWith('/') || href.startsWith('./') || href.includes(urlObj.hostname);
+      return href.startsWith('/') || href.startsWith('./') || href.startsWith('#') || href.includes(urlObj.hostname);
     }).length;
     const externalLinks = links - internalLinks;
 

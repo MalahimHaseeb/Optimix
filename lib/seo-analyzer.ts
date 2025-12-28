@@ -238,5 +238,5 @@ export function analyzeSeoLocally(data: SeoData) {
     </div>
   `;
 
-  return { html, score };
+  return { html, score, recommendations };
 }
